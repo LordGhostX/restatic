@@ -2,7 +2,7 @@ import codecs
 import sys
 from bs4 import BeautifulSoup as Soup
 
-def parse_html(file_name, framework="flask", supported_tags=["link", "script", "img", "video"]):
+def parse_html(file_name, output_file, framework="flask", supported_tags=["link", "script", "img", "video"]):
     # accounting for cases where someone enters a different casing
     framework = framework.lower()
 
@@ -29,7 +29,7 @@ def parse_html(file_name, framework="flask", supported_tags=["link", "script", "
             doc_link = tag["src"]
         else:
             doc_link = None
-            
+
         return str(tag).replace(doc_link, parse_doc(doc_link))
 
     # read and parse the html to beautiful soup
@@ -46,10 +46,15 @@ def parse_html(file_name, framework="flask", supported_tags=["link", "script", "
         # account for django compulsory 'load static'
         clean_html = "{% load static %}\n\n" + clean_html
 
-    codecs.open(file_name, "w", "utf-8").write(clean_html)
+    codecs.open(output_file, "w", "utf-8").write(clean_html)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) < 3:
         print("""python restatic.py <file.html> <flask|django>""")
+        print("""python restatic.py <file.html> <flask|django> <output.html>""")
     else:
-        parse_html(sys.argv[1], sys.argv[2])
+        try:
+            output_file = sys.argv[3]
+        except:
+            output_file = sys.argv[1]
+        parse_html(sys.argv[1], output_file, sys.argv[2])
