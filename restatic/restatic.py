@@ -2,34 +2,48 @@ import codecs
 import sys
 from bs4 import BeautifulSoup as Soup
 
-def parse_html(file_name, framework="flask", supported_ext=["js", "css"]):
+def parse_html(file_name, framework="flask", supported_tags=["link", "script", "img", "video"]):
+    # accounting for cases where someone enters a different casing
     framework = framework.lower()
-    
+
     def parse_tags(tag):
+        # parse every tag and return the restatic format
         def parse_doc(doc):
+            # parse the actual document and format as either flask or django
+            # if no document is found, return back unformatted
             if doc == None:
                 return doc
             else:
                 if framework == "flask":
                     doc = "{{ url_for('static', filename = '" + doc + "') }}"
-                else:
+                elif framework == "django":
                     doc = "{% static '" + doc + "' %}"
+                else:
+                    print("Unknown framework {} passed".format(framework))
                 return doc
 
+        # account for different tags having different source locations
         if tag.name == "link":
             doc_link = tag["href"]
-        else:
+        elif tag.name in ["script", "img", "video"]:
             doc_link = tag["src"]
+        else:
+            doc_link = None
+            
         return str(tag).replace(doc_link, parse_doc(doc_link))
 
+    # read and parse the html to beautiful soup
     html = open(file_name, "r").read()
     html_soup = Soup(html, "html.parser")
 
-    for i in html_soup.find_all(["script", "link"]):
+    # iterate through every occurence of the tags and replace with the formatted values
+    for i in html_soup.find_all(supported_tags):
         i.replace_with(Soup(parse_tags(i), "html.parser"))
 
+    # write back the file
     clean_html = html_soup.prettify()
     if framework == "django":
+        # account for django compulsory 'load static'
         clean_html = "{% load static %}\n\n" + clean_html
 
     codecs.open(file_name, "w", "utf-8").write(clean_html)
