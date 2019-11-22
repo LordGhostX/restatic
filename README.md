@@ -9,13 +9,18 @@ ReStatic does all that for you automatically
 ## Usage
 * ReStaticing an HTML document
 ```bash
-python restatic.py <file.html> <flask|django>
-python restatic.py index.html flask
+$ python restatic.py <file.html> <flask|django>
+$ python restatic.py index.html flask
+```
+* ReStaticing all HTML documents in a folder
+```bash
+$ python restatic.py . <flask|django>
+$ python restatic.py . django
 ```
 * ReStaticing an HTML document specifying output file
 ```bash
-python restatic.py <file.html> <flask|django> <output.html>
-python restatic.py index.html django index2.html
+$ python restatic.py <file.html> <flask|django> <output.html>
+$ python restatic.py index.html django index2.html
 ```
 
 ## Author
