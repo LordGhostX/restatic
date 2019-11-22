@@ -6,6 +6,18 @@ When working on web projects with either Django or Flask from an already existin
 
 ReStatic does all that for you automatically
 
+## Usage
+* ReStaticing an HTML document
+```bash
+python restatic.py <file.html> <flask|django>
+python restatic.py index.html flask
+```
+* ReStaticing an HTML document specifying output file
+```bash
+python restatic.py <file.html> <flask|django> <output.html>
+python restatic.py index.html django index2.html
+```
+
 ## Author
 * LordGhostX
 
