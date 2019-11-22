@@ -1,5 +1,6 @@
 import codecs
 import sys
+import os
 from bs4 import BeautifulSoup as Soup
 
 def parse_html(file_name, output_file, framework="flask", supported_tags=["link", "script", "img", "video"]):
@@ -47,14 +48,22 @@ def parse_html(file_name, output_file, framework="flask", supported_tags=["link"
         clean_html = "{% load static %}\n\n" + clean_html
 
     codecs.open(output_file, "w", "utf-8").write(clean_html)
+    print("Successfully formatted '{}' to {} template".format(file_name, framework))
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("""python restatic.py <file.html> <flask|django>""")
+        print("""python restatic.py . <flask|django>""")
         print("""python restatic.py <file.html> <flask|django> <output.html>""")
     else:
-        try:
-            output_file = sys.argv[3]
-        except:
-            output_file = sys.argv[1]
-        parse_html(sys.argv[1], output_file, sys.argv[2])
+        # support to convert all files in current folder
+        if sys.argv[1] == ".":
+            all_html = [file for file in os.listdir(".") if file.split(".")[-1] == "html"]
+            for html in all_html:
+                parse_html(html, html, sys.argv[2])
+        else:
+            try:
+                output_file = sys.argv[3]
+            except:
+                output_file = sys.argv[1]
+            parse_html(sys.argv[1], output_file, sys.argv[2])
