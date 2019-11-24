@@ -24,14 +24,20 @@ def parse_html(file_name, output_file, framework="flask", supported_tags=["link"
                 return doc
 
         # account for different tags having different source locations
-        if tag.name == "link":
-            doc_link = tag["href"]
-        elif tag.name in ["script", "img", "video"]:
-            doc_link = tag["src"]
-        else:
+        try:
+            if tag.name == "link":
+                doc_link = tag["href"]
+            elif tag.name in ["script", "img", "video"]:
+                doc_link = tag["src"]
+            else:
+                doc_link = None
+        except:
             doc_link = None
 
-        return str(tag).replace(doc_link, parse_doc(doc_link))
+        if doc_link == None:
+            return str(tag)
+        else:
+            return str(tag).replace(doc_link, parse_doc(doc_link))
 
     # read and parse the html to beautiful soup
     html = open(file_name, "r").read()
