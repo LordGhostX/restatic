@@ -12,7 +12,7 @@ def parse_html(file_name, output_file, framework="flask", supported_tags=["link"
         def parse_doc(doc):
             # parse the actual document and format as either flask or django
             # if no document is found, return back unformatted
-            if doc == None:
+            if doc == None or doc.startswith("https://"):
                 return doc
             else:
                 if framework == "flask":
