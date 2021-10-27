@@ -38,7 +38,7 @@ After script execution:
 
 ```html
 <img class="mySlides" src=" {% static '/landreg/1.jpg' %} " style="width:100%">
-   <li><a href=" {% static 'blog/register.html' %} ">Register</a></li>
+   <li><a href=" {% static 'register.html' %} ">Register</a></li>
 ```
 
 ## Author
