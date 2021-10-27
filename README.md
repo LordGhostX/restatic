@@ -30,7 +30,7 @@ The commands above will format your local template file referenced in 'href', 's
 Original template file:
 
 ```html
-  <img class="mySlides" src="res/landreg/1.jpg" style="width:100%">
+  <img class="mySlides" src="/landreg/1.jpg" style="width:100%">
     <li><a href="register.html">Register</a></li>
 ```
 
