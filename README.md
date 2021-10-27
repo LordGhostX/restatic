@@ -37,7 +37,7 @@ Original template file:
 After script execution:
 
 ```html
-<img class="mySlides" src=" {% static 'blog/res/landreg/1.jpg' %} " style="width:100%">
+<img class="mySlides" src=" {% static '/landreg/1.jpg' %} " style="width:100%">
    <li><a href=" {% static 'blog/register.html' %} ">Register</a></li>
 ```
 
