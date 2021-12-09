@@ -3,7 +3,7 @@ import sys
 import os
 from bs4 import BeautifulSoup as Soup
 
-def parse_html(file_name, output_file, framework="flask", supported_tags=["link", "script", "img", "video"]):
+def parse_html(file_name, output_file, framework="flask", supported_tags=["link", "script", "img", "video", "source"]):
     # accounting for cases where someone enters a different casing
     framework = framework.lower()
 
@@ -27,7 +27,7 @@ def parse_html(file_name, output_file, framework="flask", supported_tags=["link"
         try:
             if tag.name == "link":
                 doc_link = tag["href"]
-            elif tag.name in ["script", "img", "video"]:
+            elif tag.name in ["script", "img", "video", "source"]:
                 doc_link = tag["src"]
             else:
                 doc_link = None
